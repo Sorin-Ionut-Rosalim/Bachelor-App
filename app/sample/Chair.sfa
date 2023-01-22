@@ -1,0 +1,42 @@
+{
+  materials: [
+    {
+      name: 'wire_166229229_1926df23-cc93-4387-81ee-178b0346106b',
+      parameters: [
+        {
+          baseColor: null,
+        },
+        {
+          baseColorTint: [
+            1,
+            0.41999999999999998,
+            0.76900000000000002,
+            1,
+          ],
+        },
+        {
+          metallic: 0,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/obj_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'Orientation',
+    ],
+    collision: {},
+    file: 'sampledata/Chair.obj',
+    name: 'Chair',
+    recenter: 'root',
+    scale: 0.0084030000000000007,
+  },
+  version: '0.54:2',
+}
