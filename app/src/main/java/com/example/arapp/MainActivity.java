@@ -15,6 +15,13 @@ public class MainActivity extends AppCompatActivity {
 
     private ArFragment arFragment;
 
+//    Button mainButton = findViewById(R.id.main_button);
+//    mainButton.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            // Show the three buttons when the main button is clicked
+//        }
+//    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,5 +52,7 @@ public class MainActivity extends AppCompatActivity {
         arFragment.getArSceneView().getScene().addChild(node);
         transformableNode.select();
     }
+
+
 
 }
