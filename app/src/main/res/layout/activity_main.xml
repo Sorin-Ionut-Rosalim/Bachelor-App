@@ -14,14 +14,14 @@
         android:layout_height="match_parent" />
 
     <Button
-        android:id="@+id/main_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/burgerButton"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="25dp"
-        android:text="Show Buttons" />
+        android:text="Show" />
 
     <LinearLayout
         android:id="@+id/button_holder"
@@ -29,29 +29,30 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="85dp"
         android:layout_marginEnd="25dp"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/qrButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button 1" />
+            android:text="QR SCAN" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/libraryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button 2" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button 3" />
+            android:text="Library" />
 
     </LinearLayout>
+
+    <fragment
+        android:id="@+id/qrScannerFragment"
+        android:name="com.budiyev.android.codescanner.CodeScannerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </RelativeLayout>
