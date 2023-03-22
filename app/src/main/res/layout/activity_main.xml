@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
     tools:context=".MainActivity">
-
-    <fragment
-        android:id="@+id/arFragment"
-        android:name="com.google.ar.sceneform.ux.ArFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/burgerButton"
@@ -21,7 +14,20 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="25dp"
-        android:text="Show" />
+        android:text="@string/Show"
+        tools:ignore="VisualLintOverlap" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerView"
+            android:name="com.google.ar.sceneform.ux.ArFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/button_holder"
@@ -32,27 +38,21 @@
         android:layout_marginTop="85dp"
         android:layout_marginEnd="25dp"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible"
+        tools:ignore="RelativeOverlap">
 
         <Button
             android:id="@+id/qrButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="QR SCAN" />
+            android:text="@string/QR_scan" />
 
         <Button
             android:id="@+id/libraryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Library" />
+            android:text="@string/Library" />
 
     </LinearLayout>
-
-    <fragment
-        android:id="@+id/qrScannerFragment"
-        android:name="com.budiyev.android.codescanner.CodeScannerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
 
 </RelativeLayout>

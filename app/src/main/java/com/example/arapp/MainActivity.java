@@ -1,15 +1,16 @@
 package com.example.arapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.google.ar.core.Anchor;
@@ -21,7 +22,7 @@ import com.google.ar.sceneform.ux.TransformableNode;
 public class MainActivity extends AppCompatActivity {
 
     private ArFragment arFragment;
-    private  Button burgerButton, qrButton, libraryButton;
+    private Button burgerButton;
     private LinearLayout hiddenButtons;
 
     @Override
@@ -29,12 +30,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        arFragment = new ArFragment();
+        QRScannerFragment qrScannerFragment = new QRScannerFragment();
+
         burgerButton = findViewById(R.id.burgerButton);
-        qrButton = findViewById(R.id.qrButton);
-        libraryButton = findViewById(R.id.libraryButton);
+        Button qrButton = findViewById(R.id.qrButton);
+        Button libraryButton = findViewById(R.id.libraryButton);
         hiddenButtons = findViewById(R.id.button_holder);
 
         burgerButton.setOnClickListener(new View.OnClickListener() {
+          @SuppressLint("SetTextI18n")
           @Override
           public void onClick(View view) {
               if (hiddenButtons.getVisibility() == View.GONE) {
@@ -57,19 +62,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        qrButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                QRscannerFragment qRscannerFragment = new QRscannerFragment();
-//                fragmentTransaction.replace(R.id.arFragment, qRscannerFragment);
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
-//            }
-//        });
+        qrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arFragment);
+            }
+        });
+
+        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
 
         assert arFragment != null;
         arFragment.setOnTapArPlaneListener(((hitResult, plane, motionEvent) -> {
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             ModelRenderable.builder()
                     .setSource(this, Uri.parse("Chair.sfb"))
                     .build()
-                    .thenAccept(modelRenderable -> addModelToScene(anchor, modelRenderable));
+                    .thenAccept(modelRenderer -> addModelToScene(anchor, modelRenderer));
         }));
 
     }
