@@ -1,4 +1,4 @@
-package com.example.arapp;
+package com.alpha.RealityEnhance;
 
 import org.junit.Test;
 

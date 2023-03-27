@@ -5,7 +5,7 @@ android {
     compileSdkVersion 33
 
     defaultConfig {
-        applicationId "com.example.arapp"
+        applicationId "com.alpha.RealityEnhance"
         minSdkVersion 24
         targetSdkVersion 33
         versionCode 1
@@ -21,7 +21,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    namespace 'com.example.arapp'
+    namespace 'com.alpha.RealityEnhance'
 
 }
 
@@ -38,6 +38,8 @@ dependencies {
         implementation 'androidx.appcompat:appcompat:1.1.0'
         implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.fragment:fragment:1.4.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'org.testng:testng:6.9.6'
 }
 
 //sceneform.asset('sampledata/Chair.obj',

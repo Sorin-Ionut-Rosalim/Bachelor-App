@@ -1,9 +1,6 @@
-package com.example.arapp;
+package com.alpha.RealityEnhance;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -25,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Button burgerButton;
     private LinearLayout hiddenButtons;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,35 +36,25 @@ public class MainActivity extends AppCompatActivity {
         Button libraryButton = findViewById(R.id.libraryButton);
         hiddenButtons = findViewById(R.id.button_holder);
 
-        burgerButton.setOnClickListener(new View.OnClickListener() {
-          @SuppressLint("SetTextI18n")
-          @Override
-          public void onClick(View view) {
-              if (hiddenButtons.getVisibility() == View.GONE) {
-                  hiddenButtons.setVisibility(View.VISIBLE);
-                  burgerButton.setText("Hide");
-              }
-              else
-              {
-                  hiddenButtons.setVisibility(View.GONE);
-                  burgerButton.setText("Show");
-              }
-          }
-        });
-
-        libraryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, LibraryActivity.class);
-                startActivity(intent);
+        burgerButton.setOnClickListener(view -> {
+            if (hiddenButtons.getVisibility() == View.GONE) {
+                hiddenButtons.setVisibility(View.VISIBLE);
+                burgerButton.setText("Hide");
+            }
+            else
+            {
+                hiddenButtons.setVisibility(View.GONE);
+                burgerButton.setText("Show");
             }
         });
 
-        qrButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        libraryButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, LibraryActivity.class);
+            startActivity(intent);
+        });
 
-            }
+        qrButton.setOnClickListener(view -> {
+
         });
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);

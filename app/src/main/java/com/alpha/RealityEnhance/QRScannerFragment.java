@@ -1,4 +1,4 @@
-package com.example.arapp;
+package com.alpha.RealityEnhance;
 
 import android.app.Activity;
 import android.os.Bundle;
