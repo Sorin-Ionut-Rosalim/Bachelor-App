@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:visibility="visible"
     tools:context=".MainActivity">
+    <include layout="@layout/toolbar_main" />
 
     <Button
         android:id="@+id/burgerButton"
@@ -15,26 +16,13 @@
         android:layout_marginTop="35dp"
         android:layout_marginEnd="25dp"
         android:text="@string/Show"
+        android:visibility="gone"
         tools:ignore="VisualLintOverlap" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerView"
-            android:name="com.google.ar.sceneform.ux.ArFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/button_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginTop="85dp"
         android:layout_marginEnd="25dp"
         android:orientation="vertical"
@@ -54,5 +42,15 @@
             android:text="@string/Library" />
 
     </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.google.ar.sceneform.ux.ArFragment"
+        android:paddingTop="57dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

@@ -16,13 +16,8 @@ public class LibraryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.library_activity);
 
-        Button backButton = findViewById(R.id.backButton);
         Button qrButton = findViewById(R.id.scanButton);
 
-        backButton.setOnClickListener(view -> {
-            Intent intent = new Intent(LibraryActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
 
     }
 }

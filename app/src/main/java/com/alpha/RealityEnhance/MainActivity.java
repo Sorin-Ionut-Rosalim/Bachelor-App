@@ -26,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
 
         arFragment = new ArFragment();
-        QRScannerFragment qrScannerFragment = new QRScannerFragment();
+        QRActivity qrScannerFragment = new QRActivity();
 
         burgerButton = findViewById(R.id.burgerButton);
         Button qrButton = findViewById(R.id.qrButton);
@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         qrButton.setOnClickListener(view -> {
-
+            Intent intent = new Intent(MainActivity.this, QRActivity.class);
+            startActivity(intent);
         });
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
