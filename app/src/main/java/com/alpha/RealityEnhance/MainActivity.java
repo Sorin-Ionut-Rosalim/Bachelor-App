@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.ar.core.Anchor;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ArFragment arFragment;
     private Button burgerButton;
+
+    private ImageView menuButton;
     private LinearLayout hiddenButtons;
 
     @SuppressLint("SetTextI18n")
@@ -30,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
 
         arFragment = new ArFragment();
         QRActivity qrScannerFragment = new QRActivity();
+
+        menuButton = findViewById(R.id.menu_icon);
+
+        menuButton.setOnClickListener(view -> {
+                Intent intent = new Intent(MainActivity.this, LibraryActivity.class);
+                startActivity(intent);
+        });
 
         burgerButton = findViewById(R.id.burgerButton);
         Button qrButton = findViewById(R.id.qrButton);
