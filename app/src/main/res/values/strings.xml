@@ -3,4 +3,8 @@
     <string name="Show">Show</string>
     <string name="QR_scan">QR SCAN</string>
     <string name="Library">Library</string>
+    <string name="qrDescription">QR button for going to the QRActivity</string>
+    <string name="realityenhance">RealityEnhance</string>
+    <string name="lbDescription">Library button for going to the LibraryActivity</string>
+    <string name="backDescription">Back button that takes you to the MainActivity</string>
 </resources>

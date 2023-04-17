@@ -5,43 +5,8 @@
     android:layout_height="match_parent"
     android:visibility="visible"
     tools:context=".MainActivity">
+
     <include layout="@layout/toolbar_main" />
-
-    <Button
-        android:id="@+id/burgerButton"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="25dp"
-        android:text="@string/Show"
-        android:visibility="gone"
-        tools:ignore="VisualLintOverlap" />
-
-    <LinearLayout
-        android:id="@+id/button_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="85dp"
-        android:layout_marginEnd="25dp"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:ignore="RelativeOverlap">
-
-        <Button
-            android:id="@+id/qrButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/QR_scan" />
-
-        <Button
-            android:id="@+id/libraryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Library" />
-
-    </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"

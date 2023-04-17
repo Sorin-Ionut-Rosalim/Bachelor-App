@@ -10,25 +10,30 @@
         android:padding="15dp">
 
         <ImageView
+            android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:src="@drawable/back_arrow"/>
+            android:paddingStart="10sp"
+            android:src="@drawable/back_arrow"
+            android:contentDescription="@string/backDescription" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RealityEnhance"
+            android:text="@string/realityenhance"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/white"
             android:layout_centerInParent="true"/>
 
         <ImageView
+            android:id="@+id/qrButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:paddingRight="5dp"
-            android:src="@drawable/qr_code"/>
+            android:paddingEnd="10sp"
+            android:src="@drawable/qr_code"
+            android:contentDescription="@string/qrDescription" />
     </RelativeLayout>
 
 </RelativeLayout>
