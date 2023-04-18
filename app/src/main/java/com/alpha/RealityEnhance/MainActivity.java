@@ -9,23 +9,21 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
-//import android.widget.Toast;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.ar.core.Anchor;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
-//import java.util.ArrayList;
-//import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     private ArFragment arFragment;
-//    private AnchorNode anchorNode;
-//    private List<AnchorNode> anchorNodeList = new ArrayList<>();
-
+    private AnchorNode currentSelectedAnchorNode = null;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView libraryButton = findViewById(R.id.libraryButton);
         ImageView qrButton = findViewById(R.id.qrButton);
+        FloatingActionButton deleteButton = findViewById(R.id.deleteButton);
 
         libraryButton.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, LibraryActivity.class);
@@ -49,17 +48,23 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        deleteButton.setOnClickListener(view -> {
+            if (currentSelectedAnchorNode != null) {
+                removeAnchorNode(currentSelectedAnchorNode);
+                currentSelectedAnchorNode = null;
+            } else {
+                Toast.makeText(MainActivity.this, "Delete - no node selected! Touch a node to select it.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
 
         assert arFragment != null;
 
-
         arFragment.setOnTapArPlaneListener(((hitResult, plane, motionEvent) -> {
-
             Anchor anchor = hitResult.createAnchor();
-
+            Toast.makeText(this, "MISS TEST", Toast.LENGTH_SHORT).show();
             ModelRenderable.builder()
                     .setSource(this, Uri.parse("Chair.sfb"))
                     .build()
@@ -70,36 +75,34 @@ public class MainActivity extends AppCompatActivity {
 
     private void addModelToScene(Anchor anchor, ModelRenderable model) {
         // Create the anchor node
-        AnchorNode node = new AnchorNode(anchor);
-
+        AnchorNode anchorNode = new AnchorNode(anchor);
         // Create the transformable node
         TransformableNode transformableNode = new TransformableNode(arFragment.getTransformationSystem());
-        transformableNode.setParent(node);
+        transformableNode.setParent(anchorNode);
         transformableNode.setRenderable(model);
-
-        // setOnTapListener is a method used in ARCore for detecting a tap gesture on a detected plane or a feature point.
-        // It is specific to ARCore and is used to interact with the AR scene.
-        transformableNode.setOnTapListener((hitTestResult, motionEvent) -> {
-
-        });
-
-
         // Add the node to the scene
-        arFragment.getArSceneView().getScene().addChild(node);
+        arFragment.getArSceneView().getScene().addChild(anchorNode);
         // Select the renderable node
         transformableNode.select();
+
+        transformableNode.setOnTapListener((hitTestResult, motionEvent) -> {
+            if (currentSelectedAnchorNode != null) {
+                currentSelectedAnchorNode.setRenderable(model);
+            }
+            // Update the currentSelectedAnchorNode to the tapped node
+            currentSelectedAnchorNode = anchorNode;
+        });
     }
 
-//    private void removeAnchorNode(AnchorNode nodeToRemove) {
-//        //Remove an anchor node
-//        if (nodeToRemove != null) {
-//            arFragment.getArSceneView().getScene().removeChild(nodeToRemove);
-//            anchorNodeList.remove(nodeToRemove);
-//            nodeToRemove.getAnchor().detach();
-//            nodeToRemove.setParent(null);
-//            nodeToRemove = null;
-//        } else {
-//            //Handle error case here
-//        }
-
+    private void removeAnchorNode(AnchorNode nodeToremove) {
+        //Remove an anchor node
+        if (nodeToremove != null) {
+            arFragment.getArSceneView().getScene().removeChild(nodeToremove);
+            Objects.requireNonNull(nodeToremove.getAnchor()).detach();
+            nodeToremove.setParent(null);
+            Toast.makeText(MainActivity.this, "Test Delete - markAnchorNode removed", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Delete - no node selected! Touch a node to select it.", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
