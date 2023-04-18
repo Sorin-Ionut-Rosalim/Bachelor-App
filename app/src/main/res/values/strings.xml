@@ -7,4 +7,5 @@
     <string name="realityenhance">RealityEnhance</string>
     <string name="lbDescription">Library button for going to the LibraryActivity</string>
     <string name="backDescription">Back button that takes you to the MainActivity</string>
+    <string name="delDescription">Button that deletes the selected object</string>
 </resources>

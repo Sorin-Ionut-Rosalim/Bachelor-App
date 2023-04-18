@@ -8,14 +8,29 @@
 
     <include layout="@layout/toolbar_main" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="337dp"
+        android:layout_marginTop="770dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/delDescription"
+        android:src="@drawable/delete_icon"/>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="com.google.ar.sceneform.ux.ArFragment"
-        android:paddingTop="57dp"
+        android:paddingTop="56sp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"/>
+
+
 
 </RelativeLayout>
