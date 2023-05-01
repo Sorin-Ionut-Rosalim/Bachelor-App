@@ -1,5 +1,6 @@
 package com.alpha.RealityEnhance;
 
+import static android.content.ContentValues.TAG;
 import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         arFragment.setOnTapArPlaneListener(((hitResult, plane, motionEvent) -> {
             Anchor anchor = hitResult.createAnchor();
+            Log.d(TAG, "CLICKED ON AN EMPTY SPACE " + hitResult);
             Toast.makeText(this, "MISS TEST", Toast.LENGTH_SHORT).show();
             ModelRenderable.builder()
                     .setSource(this, Uri.parse("Chair.sfb"))
@@ -76,30 +79,30 @@ public class MainActivity extends AppCompatActivity {
     private void addModelToScene(Anchor anchor, ModelRenderable model) {
         // Create the anchor node
         AnchorNode anchorNode = new AnchorNode(anchor);
+
         // Create the transformable node
         TransformableNode transformableNode = new TransformableNode(arFragment.getTransformationSystem());
         transformableNode.setParent(anchorNode);
         transformableNode.setRenderable(model);
         // Add the node to the scene
+
         arFragment.getArSceneView().getScene().addChild(anchorNode);
-        // Select the renderable node
+        Log.d(TAG, "CLICKED CREATED OBJECT WITH MODEL " + model.getId());
+        // Select the renderer node
         transformableNode.select();
 
         transformableNode.setOnTapListener((hitTestResult, motionEvent) -> {
-            if (currentSelectedAnchorNode != null) {
-                currentSelectedAnchorNode.setRenderable(model);
-            }
-            // Update the currentSelectedAnchorNode to the tapped node
+            Log.d(TAG, "CLICKED ON OBJECT " + model.getId());
             currentSelectedAnchorNode = anchorNode;
         });
     }
 
-    private void removeAnchorNode(AnchorNode nodeToremove) {
+    private void removeAnchorNode(AnchorNode nodeToRemove) {
         //Remove an anchor node
-        if (nodeToremove != null) {
-            arFragment.getArSceneView().getScene().removeChild(nodeToremove);
-            Objects.requireNonNull(nodeToremove.getAnchor()).detach();
-            nodeToremove.setParent(null);
+        if (nodeToRemove != null) {
+            arFragment.getArSceneView().getScene().removeChild(nodeToRemove);
+            Objects.requireNonNull(nodeToRemove.getAnchor()).detach();
+            nodeToRemove.setParent(null);
             Toast.makeText(MainActivity.this, "Test Delete - markAnchorNode removed", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(MainActivity.this, "Delete - no node selected! Touch a node to select it.", Toast.LENGTH_SHORT).show();
