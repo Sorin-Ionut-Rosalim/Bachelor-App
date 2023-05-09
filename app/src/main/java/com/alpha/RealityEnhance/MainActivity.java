@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArFragment arFragment;
     private AnchorNode currentSelectedAnchorNode = null;
+    private static String selectedModel = null;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +68,17 @@ public class MainActivity extends AppCompatActivity {
         arFragment.setOnTapArPlaneListener(((hitResult, plane, motionEvent) -> {
             Anchor anchor = hitResult.createAnchor();
             Log.d(TAG, "CLICKED ON AN EMPTY SPACE " + hitResult);
-            Toast.makeText(this, "MISS TEST", Toast.LENGTH_SHORT).show();
-            ModelRenderable.builder()
-                    .setSource(this, Uri.parse("Chair.sfb"))
-                    .build()
-                    .thenAccept(modelRenderer -> addModelToScene(anchor, modelRenderer));
+            if (selectedModel != null) {
+                ModelRenderable.builder()
+                        .setSource(this, Uri.parse(selectedModel))
+                        .build()
+                        .thenAccept(modelRenderer -> addModelToScene(anchor, modelRenderer));
+            }
+            else {
+                Toast.makeText(this, "NO MODEL SELECTED", Toast.LENGTH_SHORT).show();
+            }
+
+
         }));
 
     }
@@ -84,9 +91,10 @@ public class MainActivity extends AppCompatActivity {
         TransformableNode transformableNode = new TransformableNode(arFragment.getTransformationSystem());
         transformableNode.setParent(anchorNode);
         transformableNode.setRenderable(model);
-        // Add the node to the scene
 
+        // Add the node to the scene
         arFragment.getArSceneView().getScene().addChild(anchorNode);
+        currentSelectedAnchorNode = anchorNode;
         Log.d(TAG, "CLICKED CREATED OBJECT WITH MODEL " + model.getId());
         // Select the renderer node
         transformableNode.select();
@@ -107,5 +115,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(MainActivity.this, "Delete - no node selected! Touch a node to select it.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static void setSelectedModel(String modelPath) {
+        selectedModel = modelPath;
     }
 }
