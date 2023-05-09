@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,18 +50,26 @@ public class LibraryActivity extends AppCompatActivity {
             // Loop through each file in the "models" folder
             for (int i = 0; i < models.length; i++) {
                 // Create a button for each model file
-                ImageButton button = new ImageButton(this);
+                Button button = new Button(this);
                 int finalI = i;
-                button.setOnClickListener(v -> {
+                button.setOnClickListener(view -> {
                     // Change the selected model
                     MainActivity.setSelectedModel("models/"+models[finalI]);
                 });
 
                 // Set the button's image
                 String model_img = models[i].replace(".sfb", ".jpg");
-                InputStream stream = getAssets().open("models_img/" + model_img);
-                Drawable drawable = Drawable.createFromStream(stream, null);
-                button.setImageDrawable(drawable);
+                String path = "models_img/" + model_img;
+                try {
+                    InputStream stream = getAssets().open(path);
+                    Drawable drawable = Drawable.createFromStream(stream, null);
+                    button.setBackground(drawable);
+                    button.setText("");
+                }
+                catch (IOException e){
+                    // Create a button for each model that doesn't have a picture
+                    button.setText(models[i].replace(".sfb", ""));
+                }
 
                 // Set the button's layout parameters
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();

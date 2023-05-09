@@ -33,13 +33,13 @@ dependencies {
         implementation 'de.javagl:obj:0.2.1'
         implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
         implementation 'androidx.appcompat:appcompat:1.6.1'
-        implementation 'com.google.android.material:material:1.8.0'
-        implementation 'androidx.fragment:fragment:1.5.6'
+        implementation 'com.google.android.material:material:1.9.0'
+        implementation 'androidx.fragment:fragment:1.5.7'
         testImplementation 'junit:junit:4.12'
         androidTestImplementation 'org.testng:testng:6.9.6'
 }
 
-//sceneform.asset('sampledata/Chair.obj',
+//sceneform.asset('sampledata/WorkTable.obj',
 //                'default',
-//                'sample/Chair.sfa',
-//                'src/main/assets/Chair')
+//                'sample/WorkTable.sfa',
+//                'src/main/assets/models/WorkTable')
