@@ -1,18 +1,19 @@
 package com.alpha.RealityEnhance;
 
-import android.content.Intent;
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
-import com.budiyev.android.codescanner.DecodeCallback;
-import com.google.zxing.Result;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class QRActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
@@ -24,23 +25,22 @@ public class QRActivity extends AppCompatActivity {
 
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
-        mCodeScanner.setDecodeCallback(new DecodeCallback() {
-            @Override
-            public void onDecoded(@NonNull final Result result) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(QRActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        mCodeScanner.setDecodeCallback(result -> runOnUiThread(() -> {
+            Toast.makeText(QRActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
+            String model = result.getText().replace("https://qrco.de/", "") + ".sfb";
+            Log.d(TAG, "scanned: " + model);
+            try {
+                String[] models = getAssets().list("models");
+                List<String> modelList = Arrays.asList(models);
+                if (modelList.contains(model)) {
+                    MainActivity.setSelectedModel("models/" + model);
+                }
+                finish();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
-        scannerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCodeScanner.startPreview();
-            }
-        });
+        }));
+        scannerView.setOnClickListener(view -> mCodeScanner.startPreview());
     }
 
     @Override

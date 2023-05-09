@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -54,7 +55,8 @@ public class LibraryActivity extends AppCompatActivity {
                 int finalI = i;
                 button.setOnClickListener(view -> {
                     // Change the selected model
-                    MainActivity.setSelectedModel("models/"+models[finalI]);
+                    MainActivity.setSelectedModel("models/" + models[finalI]);
+                    Toast.makeText(this, "Selected model: " + models[finalI], Toast.LENGTH_SHORT).show();
                 });
 
                 // Set the button's image
