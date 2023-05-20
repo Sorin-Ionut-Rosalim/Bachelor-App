@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "NO MODEL SELECTED", Toast.LENGTH_SHORT).show();
             }
 
-
         }));
 
     }
@@ -164,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
         transformableNode.setOnTapListener((hitTestResult, motionEvent) -> {
             Log.d(TAG, "CLICKED ON OBJECT " + model.getId());
             currentSelectedAnchorNode = anchorNode;
+            transformableNode.select();
         });
     }
 
