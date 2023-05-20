@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.alpha.RealityEnhance"
-        minSdkVersion 24
+        minSdk 26
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -26,17 +26,18 @@ android {
 }
 
 dependencies {
-        // ARCore (Google Play Services for AR) library.
-        implementation 'com.google.ar:core:1.36.0'
-        implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.17.1'
-        implementation 'com.google.ar.sceneform:core:1.17.1'
-        implementation 'de.javagl:obj:0.2.1'
-        implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
-        implementation 'androidx.appcompat:appcompat:1.6.1'
-        implementation 'com.google.android.material:material:1.9.0'
-        implementation 'androidx.fragment:fragment:1.5.7'
-        testImplementation 'junit:junit:4.12'
-        androidTestImplementation 'org.testng:testng:6.9.6'
+    // ARCore (Google Play Services for AR) library.
+    implementation 'com.google.ar:core:1.37.0'
+    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.17.1'
+    implementation 'com.google.ar.sceneform:core:1.17.1'
+    implementation 'de.javagl:obj:0.2.1'
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.fragment:fragment:1.5.7'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    androidTestImplementation 'org.testng:testng:6.9.6'
 }
 
 //sceneform.asset('sampledata/WorkTable.obj',

@@ -20,6 +20,10 @@ import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView libraryButton = findViewById(R.id.libraryButton);
         ImageView qrButton = findViewById(R.id.qrButton);
         FloatingActionButton deleteButton = findViewById(R.id.deleteButton);
+        tryToMoveAssets();
 
         libraryButton.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, LibraryActivity.class);
@@ -80,6 +85,63 @@ public class MainActivity extends AppCompatActivity {
 
 
         }));
+
+    }
+
+    private void moveAssetDirectoryToInternalStorage(String assetDirectoryName) {
+        try {
+            // Get the list of files in the asset directory
+            String[] fileList = getAssets().list(assetDirectoryName);
+
+            // Create a directory in the internal storage
+            File internalDirectory = new File(getFilesDir(), assetDirectoryName);
+            if (!internalDirectory.exists()) {
+                if (!internalDirectory.mkdirs()) {
+                    // Directory creation failed
+                    return;
+                }
+            }
+
+            // Iterate through the files in the asset directory
+            for (String fileName : fileList) {
+                // Open the asset file for reading
+                InputStream inputStream = getAssets().open(assetDirectoryName + File.separator + fileName);
+
+                // Create a new file in the internal storage directory
+                File internalFile = new File(internalDirectory, fileName);
+                FileOutputStream outputStream = new FileOutputStream(internalFile);
+
+                // Read the data from the asset file and write it to the new file in the internal storage
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, length);
+                }
+
+                // Close the streams
+                outputStream.flush();
+                outputStream.close();
+                inputStream.close();
+            }
+
+            // The directory and its contents have been moved to the internal storage
+            // You can now access the files in the internalDirectory
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void tryToMoveAssets() {
+        File internalStorageDir = getFilesDir();
+
+        File modelsDir = new File(internalStorageDir, "models");
+        File modelImgsDir = new File(internalStorageDir, "models_img");
+        if (modelsDir.exists() && modelsDir.isDirectory() && modelImgsDir.exists() && modelImgsDir.isDirectory()) {
+            return;
+        }
+        moveAssetDirectoryToInternalStorage("models");
+        moveAssetDirectoryToInternalStorage("models_img");
+
 
     }
 
