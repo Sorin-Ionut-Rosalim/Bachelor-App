@@ -8,4 +8,5 @@
     <string name="lbDescription">Library button for going to the LibraryActivity</string>
     <string name="backDescription">Back button that takes you to the MainActivity</string>
     <string name="delDescription">Button that deletes the selected object</string>
+    <string name="scroll_view_label">scroll_view_label</string>
 </resources>

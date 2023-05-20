@@ -5,15 +5,20 @@
     android:layout_height="match_parent"
     android:visibility="visible"
     tools:context=".LibraryActivity">
-    <include layout="@layout/toolbar"/>
 
-    <GridLayout
-        android:id="@+id/gridLayout"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="70dp"
-        android:orientation="vertical">
+        android:contentDescription="@string/scroll_view_label"
+        android:paddingTop="100dp">
 
-    </GridLayout>
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+        </GridLayout>
+    </ScrollView>
+    <include layout="@layout/toolbar"/>
 </RelativeLayout>

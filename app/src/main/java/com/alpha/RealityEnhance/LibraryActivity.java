@@ -24,6 +24,13 @@ public class LibraryActivity extends AppCompatActivity {
     private File modelsDir;
     private File modelsImgDir;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("tesssst", "onResume: ");
+        loadModels();
+    }
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,34 +55,23 @@ public class LibraryActivity extends AppCompatActivity {
     private void loadModels() {
         GridLayout gridLayout = findViewById(R.id.gridLayout);
         gridLayout.setColumnCount(2);
-        for (File f: Objects.requireNonNull(modelsImgDir.listFiles())) {
+        for (File f : Objects.requireNonNull(modelsImgDir.listFiles())) {
             Log.d("IMAGES", f.getAbsolutePath());
         }
         File[] fileList = modelsDir.listFiles();
-
-        String[] models = new String[Objects.requireNonNull(fileList).length];
-        for (int i = 0; i < fileList.length; i++) {
-            models[i] = fileList[i].getName();
-        }
-        int numRows = (int) Math.ceil((double) models.length / 2);
+        int numRows = (int) Math.ceil((double) Objects.requireNonNull(fileList).length / 2);
         gridLayout.setRowCount(numRows);
 
         // Loop through each file in the "models" folder
-        for (int i = 0; i < models.length; i++) {
-            // Create a button for each model file
-            Button button = new Button(this);
-            int finalI = i;
-            button.setOnClickListener(view -> {
-                // Change the selected model
-                MainActivity.setSelectedModel("models/" + models[finalI]);
-                Toast.makeText(this, "Selected model: " + models[finalI], Toast.LENGTH_SHORT).show();
-            });
+        int i = 0;
+        for (File file : fileList) {
 
-            // Set the button's image
-            String model_img = models[i].replace(".sfb", ".jpg");
-//            String path = getFilesDir() + "models_img/" + model_img;
-            File imgFile = new File(modelsImgDir, model_img);
-            Log.d("IMAGES", imgFile.getAbsolutePath());
+            Button button = new Button(this);
+            button.setOnClickListener(view -> {
+                MainActivity.setSelectedModel(file.getAbsolutePath());
+                Toast.makeText(this, "Selected model: " + file.getName(), Toast.LENGTH_SHORT).show();
+            });
+            File imgFile = new File(modelsImgDir, file.getName());
             try {
                 FileInputStream stream = new FileInputStream(imgFile);
                 Drawable drawable = Drawable.createFromStream(stream, null);
@@ -83,12 +79,9 @@ public class LibraryActivity extends AppCompatActivity {
                 button.setText("");
                 stream.close();
             } catch (IOException e) {
-                Log.d("IMAGES", e.getMessage());
-                // Create a button for each model that doesn't have a picture
-                button.setText(models[i].replace(".sfb", ""));
+                button.setText(file.getName());
             }
 
-            // Set the button's layout parameters
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.width = 0;
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -96,8 +89,9 @@ public class LibraryActivity extends AppCompatActivity {
             params.rowSpec = GridLayout.spec(i / 2, 1f);
             params.setMargins(8, 4, 8, 4);
             button.setLayoutParams(params);
-
             gridLayout.addView(button);
+
+            i++;
         }
     }
 
