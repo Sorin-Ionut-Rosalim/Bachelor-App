@@ -4,6 +4,10 @@ apply plugin: 'com.google.ar.sceneform.plugin'
 android {
     compileSdkVersion 33
 
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+
     defaultConfig {
         applicationId "com.alpha.RealityEnhance"
         minSdk 26
@@ -35,9 +39,13 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.fragment:fragment:1.5.7'
-    testImplementation 'junit:junit:4.12'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
-    androidTestImplementation 'org.testng:testng:6.9.6'
+
+    // Unit testing dependencies
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:3.9.0'
+    testImplementation 'org.mockito:mockito-inline:3.9.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.9.0'
 }
 
 // Generate .sfb file objects
