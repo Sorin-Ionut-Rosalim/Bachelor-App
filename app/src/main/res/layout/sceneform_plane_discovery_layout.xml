@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sceneform_hand_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/sceneform_hand_layout"
     android:clipChildren="false">
 
     <com.google.ar.sceneform.ux.HandMotionView
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:foregroundGravity="center"
-        android:src="@drawable/sceneform_hand_phone"
-        android:scaleType="center"/>
+        android:scaleType="center"
+        android:src="@drawable/sceneform_hand_phone" />
 
 </FrameLayout>
