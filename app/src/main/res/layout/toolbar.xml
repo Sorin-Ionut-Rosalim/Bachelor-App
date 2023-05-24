@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/cardview_dark_background">
@@ -14,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="10sp"
+            android:paddingEnd="10sp"
             android:src="@drawable/back_arrow"
             android:contentDescription="@string/backDescription" />
 
@@ -24,13 +26,15 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/white"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            tools:ignore="RelativeOverlap" />
 
         <ImageView
             android:id="@+id/qrButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:paddingStart="10sp"
             android:paddingEnd="10sp"
             android:src="@drawable/qr_code"
             android:contentDescription="@string/qrDescription" />

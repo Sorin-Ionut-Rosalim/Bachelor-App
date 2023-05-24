@@ -19,18 +19,17 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:contentDescription="@string/delDescription"
-        android:src="@drawable/delete_icon"/>
+        android:src="@drawable/delete_icon" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="com.google.ar.sceneform.ux.ArFragment"
-        android:paddingTop="56sp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"/>
-
+        android:layout_alignParentBottom="true"
+        android:paddingTop="56sp" />
 
 
 </RelativeLayout>

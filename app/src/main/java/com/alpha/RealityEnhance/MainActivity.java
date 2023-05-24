@@ -3,8 +3,6 @@ package com.alpha.RealityEnhance;
 import static android.content.ContentValues.TAG;
 import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.ar.core.Anchor;
@@ -28,9 +28,14 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static String selectedModel = null;
     private ArFragment arFragment;
     private AnchorNode currentSelectedAnchorNode = null;
-    private static String selectedModel = null;
+
+    public static void setSelectedModel(String modelPath) {
+        selectedModel = modelPath;
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         .setSource(this, Uri.parse(selectedModel))
                         .build()
                         .thenAccept(modelRenderer -> addModelToScene(anchor, modelRenderer));
-            }
-            else {
+            } else {
                 Toast.makeText(this, "NO MODEL SELECTED", Toast.LENGTH_SHORT).show();
             }
 
@@ -177,9 +181,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(MainActivity.this, "Delete - no node selected! Touch a node to select it.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public static void setSelectedModel(String modelPath) {
-        selectedModel = modelPath;
     }
 }

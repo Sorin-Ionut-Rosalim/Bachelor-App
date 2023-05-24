@@ -67,6 +67,18 @@ public class QRActivity extends AppCompatActivity {
         client.newCall(modelImgRequest).enqueue(new RequestCallback(modelId, modelsImgDir));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mCodeScanner.startPreview();
+    }
+
+    @Override
+    protected void onPause() {
+        mCodeScanner.releaseResources();
+        super.onPause();
+    }
+
     private class RequestCallback implements Callback {
         private final String modelId;
         private final File parentDir;
@@ -106,14 +118,13 @@ public class QRActivity extends AppCompatActivity {
                     while ((bytesRead = inputStream.read(buffer)) != -1) {
                         fileOutputStream.write(buffer, 0, bytesRead);
                         total += bytesRead;
-                        Log.d("MODELS", "WROTE to " + file.getAbsolutePath() + " " + ((total*100.0f)/contentSize +"%"));
+                        Log.d("MODELS", "WROTE to " + file.getAbsolutePath() + " " + ((total * 100.0f) / contentSize + "%"));
 
                     }
 
                     fileOutputStream.close();
                     inputStream.close();
                     Log.d("MODELS", "Done writing to file");
-
 
 
                     for (File f : Objects.requireNonNull(internalStorageDir.listFiles())) {
@@ -126,17 +137,5 @@ public class QRActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mCodeScanner.startPreview();
-    }
-
-    @Override
-    protected void onPause() {
-        mCodeScanner.releaseResources();
-        super.onPause();
     }
 }

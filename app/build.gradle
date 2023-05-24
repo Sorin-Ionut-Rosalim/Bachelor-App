@@ -40,6 +40,7 @@ dependencies {
     androidTestImplementation 'org.testng:testng:6.9.6'
 }
 
+// Generate .sfb file objects
 //sceneform.asset('sampledata/WorkTable.obj',
 //                'default',
 //                'sample/WorkTable.sfa',
