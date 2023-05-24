@@ -40,16 +40,12 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.fragment:fragment:1.5.7'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
-
-    // Unit testing dependencies
+    androidTestImplementation 'org.testng:testng:6.9.6'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:3.9.0'
-    testImplementation 'org.mockito:mockito-inline:3.9.0'
-    testImplementation 'org.mockito:mockito-junit-jupiter:3.9.0'
 }
 
 // Generate .sfb file objects
-//sceneform.asset('sampledata/WorkTable.obj',
+//sceneform.asset('sampledata/LegoMan.obj',
 //                'default',
-//                'sample/WorkTable.sfa',
-//                'src/main/assets/models/WorkTable')
+//                'sample/LegoMan.sfa',
+//                'src/main/assets/models/LegoMan')

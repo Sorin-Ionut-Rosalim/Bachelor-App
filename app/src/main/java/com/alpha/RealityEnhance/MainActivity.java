@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.ar.core.Anchor;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
@@ -72,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-
         assert arFragment != null;
+
 
         arFragment.setOnTapArPlaneListener(((hitResult, plane, motionEvent) -> {
             Anchor anchor = hitResult.createAnchor();
@@ -145,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
         moveAssetDirectoryToInternalStorage("models");
         moveAssetDirectoryToInternalStorage("models_img");
 
-
     }
 
     private void addModelToScene(Anchor anchor, ModelRenderable model) {
@@ -159,6 +159,16 @@ public class MainActivity extends AppCompatActivity {
 
         // Add the node to the scene
         arFragment.getArSceneView().getScene().addChild(anchorNode);
+
+        // Set the min and max scales of the ScaleController.
+        transformableNode.getScaleController().setMinScale(0.4f);
+        transformableNode.getScaleController().setMaxScale(1.2f);
+
+        // Set the local scale of the node BEFORE setting its parent
+        transformableNode.setLocalScale(new Vector3(0.55f, 0.55f, 0.55f));
+
+        transformableNode.setParent(anchorNode);
+
         currentSelectedAnchorNode = anchorNode;
         Log.d(TAG, "CLICKED CREATED OBJECT WITH MODEL " + model.getId());
         // Select the renderer node
