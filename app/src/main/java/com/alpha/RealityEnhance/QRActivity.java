@@ -2,6 +2,7 @@ package com.alpha.RealityEnhance;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -97,6 +98,11 @@ public class QRActivity extends AppCompatActivity {
         public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
             if (!response.isSuccessful()) {
                 Log.d("MODELS", "Request for " + modelId + " in " + parentDir.getAbsolutePath() + " FAIL: " + response.code());
+                String error = String.format("No model with ID: %s", modelId);
+                runOnUiThread(() -> {
+                    Toast.makeText(QRActivity.this, error, Toast.LENGTH_SHORT).show();
+                    mCodeScanner.startPreview();
+                });
             }
             if (response.isSuccessful()) {
                 Log.d("MODELS", "Request for " + modelId + " in " + parentDir.getAbsolutePath() + " SUCCESS: " + response.code());

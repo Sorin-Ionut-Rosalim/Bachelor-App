@@ -154,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the transformable node
         TransformableNode transformableNode = new TransformableNode(arFragment.getTransformationSystem());
-        transformableNode.setParent(anchorNode);
         transformableNode.setRenderable(model);
 
         // Add the node to the scene
