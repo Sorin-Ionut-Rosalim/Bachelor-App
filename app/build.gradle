@@ -45,7 +45,7 @@ dependencies {
 }
 
 // Generate .sfb file objects
-//sceneform.asset('sampledata/LegoMan.obj',
+//sceneform.asset('sampledata/Sofa.obj',
 //                'default',
-//                'sample/LegoMan.sfa',
-//                'src/main/assets/models/LegoMan')
+//                'sample/Sofa.sfa',
+//                'src/main/assets/models/Sofa')

@@ -23,6 +23,7 @@ import java.util.Objects;
 public class LibraryActivity extends AppCompatActivity {
     private File modelsDir;
     private File modelsImgDir;
+    private File modelsTutorialDir;
 
     @Override
     protected void onResume() {
@@ -48,6 +49,7 @@ public class LibraryActivity extends AppCompatActivity {
         backButton.setOnClickListener(view -> finish());
         this.modelsDir = new File(getFilesDir(), "models");
         this.modelsImgDir = new File(getFilesDir(), "models_img");
+        this.modelsTutorialDir = new File(getFilesDir(), "models_tutorial");
         loadModels();
 
     }
@@ -56,8 +58,16 @@ public class LibraryActivity extends AppCompatActivity {
         GridLayout gridLayout = findViewById(R.id.gridLayout);
         gridLayout.setColumnCount(2);
         for (File f : Objects.requireNonNull(modelsImgDir.listFiles())) {
-            Log.d("IMAGES", f.getAbsolutePath());
+            Log.d("Tutorial", f.getAbsolutePath());
         }
+
+        File[] tutorialFiles = modelsTutorialDir.listFiles();
+        if (tutorialFiles != null) {
+            for (File f : tutorialFiles) {
+                Log.d("Tutorial", f.getAbsolutePath());
+            }
+        }
+
         File[] fileList = modelsDir.listFiles();
         int numRows = (int) Math.ceil((double) Objects.requireNonNull(fileList).length / 2);
         gridLayout.setRowCount(numRows);

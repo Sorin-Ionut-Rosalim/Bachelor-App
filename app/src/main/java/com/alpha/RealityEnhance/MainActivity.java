@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // The directory and its contents have been moved to the internal storage
-            // You can now access the files in the internalDirectory
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -140,11 +139,14 @@ public class MainActivity extends AppCompatActivity {
 
         File modelsDir = new File(internalStorageDir, "models");
         File modelImgsDir = new File(internalStorageDir, "models_img");
-        if (modelsDir.exists() && modelsDir.isDirectory() && modelImgsDir.exists() && modelImgsDir.isDirectory()) {
+        File modelsTutorialDir = new File(internalStorageDir, "models_tutorial");
+
+        if (modelsDir.exists() && modelsDir.isDirectory() && modelImgsDir.exists() && modelImgsDir.isDirectory() && modelsTutorialDir.exists() && modelsTutorialDir.isDirectory()) {
             return;
         }
         moveAssetDirectoryToInternalStorage("models");
         moveAssetDirectoryToInternalStorage("models_img");
+        moveAssetDirectoryToInternalStorage("models_tutorial");
 
     }
 
