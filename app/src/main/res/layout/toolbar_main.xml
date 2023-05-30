@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/qrDescription"
             android:paddingStart="10sp"
-            android:paddingEnd="0sp"
+            android:paddingEnd="10sp"
             android:src="@drawable/qr_code" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:contentDescription="@string/lbDescription"
-            android:paddingStart="0sp"
+            android:paddingStart="10sp"
             android:paddingEnd="10sp"
             android:src="@drawable/menu" />
     </RelativeLayout>

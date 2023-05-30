@@ -9,4 +9,5 @@
     <string name="backDescription">Back button that takes you to the MainActivity</string>
     <string name="delDescription">Button that deletes the selected object</string>
     <string name="scroll_view_label">scroll_view_label</string>
+    <string name="tutorial">Tutorial</string>
 </resources>
