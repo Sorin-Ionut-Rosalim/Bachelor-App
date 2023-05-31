@@ -30,10 +30,10 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private static String selectedModel = null;
+    private final String TAG = "TUTORIAL";
     private ArFragment arFragment;
     private AnchorNode currentSelectedAnchorNode = null;
     private FloatingActionButton tutorialButton;
-    private final String TAG = "TUTORIAL";
 
     public static void setSelectedModel(String modelPath) {
         selectedModel = modelPath;
@@ -93,6 +93,32 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void tryToMoveAssets() {
+        File internalStorageDir = getFilesDir();
+        File modelsDir = new File(internalStorageDir, "models");
+        File modelImgsDir = new File(internalStorageDir, "models_img");
+
+        if (modelsDir.exists() && modelsDir.isDirectory() && modelImgsDir.exists() && modelImgsDir.isDirectory()) {
+            return;
+        }
+
+        moveAssetDirectoryToInternalStorage("models");
+        moveAssetDirectoryToInternalStorage("models_img");
+
+        try {
+            String[] assetDirectories = getAssets().list("");
+            if (assetDirectories != null) {
+                for (String assetDirectory : assetDirectories) {
+                    if (assetDirectory.endsWith("_Tutorial")) {
+                        moveAssetDirectoryToInternalStorage(assetDirectory);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void moveAssetDirectoryToInternalStorage(String assetDirectoryName) {
         try {
             // Get the list of files in the asset directory
@@ -102,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             File internalDirectory = new File(getFilesDir(), assetDirectoryName);
             if (!internalDirectory.exists()) {
                 if (!internalDirectory.mkdirs()) {
-                    Log.d(TAG, "moveAssetDirectoryToInternalStorage: FAILD TO CREATE DIRECTORY");
+                    Log.d(TAG, "moveAssetDirectoryToInternalStorage: FAILED TO CREATE DIRECTORY");
                     // Directory creation failed
                     return;
                 }
@@ -113,19 +139,11 @@ public class MainActivity extends AppCompatActivity {
             for (String fileName : fileList) {
                 // Open the asset file for reading
                 Log.d(TAG, String.format("moveAssetDirectoryToInternalStorage files in the directory: %s", fileName));
-
-                File internalFile = new File(internalDirectory, fileName);
+                InputStream inputStream = getAssets().open(assetDirectoryName + File.separator + fileName);
 
                 // Create a new file in the internal storage directory
-                if (internalFile.isDirectory()){
-                    Log.d(TAG, "moveAssetDirectoryToInternalStorage: TEST FOR IF");
-                    moveAssetDirectoryToInternalStorage(internalFile.getAbsolutePath());
-                    continue;
-                }
-
-
+                File internalFile = new File(internalDirectory, fileName);
                 FileOutputStream outputStream = new FileOutputStream(internalFile);
-                InputStream inputStream = getAssets().open(assetDirectoryName + File.separator + fileName);
 
                 // Read the data from the asset file and write it to the new file in the internal storage
                 byte[] buffer = new byte[1024];
@@ -144,21 +162,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void tryToMoveAssets() {
-        File internalStorageDir = getFilesDir();
-        File modelsDir = new File(internalStorageDir, "models");
-        File modelImgsDir = new File(internalStorageDir, "models_img");
-        File modelsTutorialDir = new File(internalStorageDir, "models_tutorial");
-
-        if (modelsDir.exists() && modelsDir.isDirectory() && modelImgsDir.exists() && modelImgsDir.isDirectory() && modelsTutorialDir.exists() && modelsTutorialDir.isDirectory()) {
-            return;
-        }
-        moveAssetDirectoryToInternalStorage("models");
-        moveAssetDirectoryToInternalStorage("models_img");
-        moveAssetDirectoryToInternalStorage("LegoMan_Tutorial");
-
     }
 
     private void addModelToScene(Anchor anchor, ModelRenderable model) {
