@@ -23,12 +23,11 @@ import java.util.Objects;
 public class LibraryActivity extends AppCompatActivity {
     private File modelsDir;
     private File modelsImgDir;
-    private File LegoManTutorialDir;
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("tesssst", "onResume: ");
+        Log.d("Tutorial", "onResume: ");
         loadModels();
     }
 
@@ -49,7 +48,6 @@ public class LibraryActivity extends AppCompatActivity {
         backButton.setOnClickListener(view -> finish());
         this.modelsDir = new File(getFilesDir(), "models");
         this.modelsImgDir = new File(getFilesDir(), "models_img");
-        this.LegoManTutorialDir = new File(getFilesDir(), "LegoMan_Tutorial");
 
         loadModels();
 
@@ -59,10 +57,6 @@ public class LibraryActivity extends AppCompatActivity {
         GridLayout gridLayout = findViewById(R.id.gridLayout);
         gridLayout.setColumnCount(2);
         for (File f : Objects.requireNonNull(modelsImgDir.listFiles())) {
-            Log.d("Tutorial", f.getAbsolutePath());
-        }
-
-        for (File f : Objects.requireNonNull(LegoManTutorialDir.listFiles())) {
             Log.d("Tutorial", f.getAbsolutePath());
         }
 
@@ -78,6 +72,7 @@ public class LibraryActivity extends AppCompatActivity {
             button.setOnClickListener(view -> {
                 MainActivity.setSelectedModel(file.getAbsolutePath());
                 Toast.makeText(this, "Selected model: " + file.getName(), Toast.LENGTH_SHORT).show();
+
             });
             File imgFile = new File(modelsImgDir, file.getName());
             try {
