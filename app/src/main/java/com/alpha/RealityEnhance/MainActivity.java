@@ -1,6 +1,5 @@
 package com.alpha.RealityEnhance;
 
-import static android.content.ContentValues.TAG;
 import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
 
 import android.annotation.SuppressLint;
@@ -8,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private static String selectedModel = null;
     private ArFragment arFragment;
     private AnchorNode currentSelectedAnchorNode = null;
+    private FloatingActionButton tutorialButton;
+    private final String TAG = "TUTORIAL";
 
     public static void setSelectedModel(String modelPath) {
         selectedModel = modelPath;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         ImageView libraryButton = findViewById(R.id.libraryButton);
         ImageView qrButton = findViewById(R.id.qrButton);
         FloatingActionButton deleteButton = findViewById(R.id.deleteButton);
+        tutorialButton = findViewById(R.id.tutorialButton);
+        tutorialButton.setVisibility(View.GONE);
         tryToMoveAssets();
 
         libraryButton.setOnClickListener(view -> {
@@ -80,10 +84,7 @@ public class MainActivity extends AppCompatActivity {
             Anchor anchor = hitResult.createAnchor();
             Log.d(TAG, "CLICKED ON AN EMPTY SPACE " + hitResult);
             if (selectedModel != null) {
-                ModelRenderable.builder()
-                        .setSource(this, Uri.parse(selectedModel))
-                        .build()
-                        .thenAccept(modelRenderer -> addModelToScene(anchor, modelRenderer));
+                ModelRenderable.builder().setSource(this, Uri.parse(selectedModel)).build().thenAccept(modelRenderer -> addModelToScene(anchor, modelRenderer));
             } else {
                 Toast.makeText(this, "NO MODEL SELECTED", Toast.LENGTH_SHORT).show();
             }
@@ -101,19 +102,30 @@ public class MainActivity extends AppCompatActivity {
             File internalDirectory = new File(getFilesDir(), assetDirectoryName);
             if (!internalDirectory.exists()) {
                 if (!internalDirectory.mkdirs()) {
+                    Log.d(TAG, "moveAssetDirectoryToInternalStorage: FAILD TO CREATE DIRECTORY");
                     // Directory creation failed
                     return;
                 }
             }
+            Log.d(TAG, "moveAssetDirectoryToInternalStorage: " + fileList.length);
 
             // Iterate through the files in the asset directory
             for (String fileName : fileList) {
                 // Open the asset file for reading
-                InputStream inputStream = getAssets().open(assetDirectoryName + File.separator + fileName);
+                Log.d(TAG, String.format("moveAssetDirectoryToInternalStorage files in the directory: %s", fileName));
+
+                File internalFile = new File(internalDirectory, fileName);
 
                 // Create a new file in the internal storage directory
-                File internalFile = new File(internalDirectory, fileName);
+                if (internalFile.isDirectory()){
+                    Log.d(TAG, "moveAssetDirectoryToInternalStorage: TEST FOR IF");
+                    moveAssetDirectoryToInternalStorage(internalFile.getAbsolutePath());
+                    continue;
+                }
+
+
                 FileOutputStream outputStream = new FileOutputStream(internalFile);
+                InputStream inputStream = getAssets().open(assetDirectoryName + File.separator + fileName);
 
                 // Read the data from the asset file and write it to the new file in the internal storage
                 byte[] buffer = new byte[1024];
@@ -136,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void tryToMoveAssets() {
         File internalStorageDir = getFilesDir();
-
         File modelsDir = new File(internalStorageDir, "models");
         File modelImgsDir = new File(internalStorageDir, "models_img");
         File modelsTutorialDir = new File(internalStorageDir, "models_tutorial");
@@ -146,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         }
         moveAssetDirectoryToInternalStorage("models");
         moveAssetDirectoryToInternalStorage("models_img");
-        moveAssetDirectoryToInternalStorage("models_tutorial");
+        moveAssetDirectoryToInternalStorage("LegoMan_Tutorial");
 
     }
 
@@ -171,14 +182,30 @@ public class MainActivity extends AppCompatActivity {
         transformableNode.setParent(anchorNode);
 
         currentSelectedAnchorNode = anchorNode;
+        if (checkForTutorial(selectedModel)) {
+            Log.d(TAG, String.format("%s HAS TUTORIAL", selectedModel));
+            tutorialButton.setVisibility(View.VISIBLE);
+        } else {
+            Log.d(TAG, String.format("%s DOESN'T TUTORIAL", selectedModel));
+            tutorialButton.setVisibility(View.GONE);
+        }
+
         Log.d(TAG, "CLICKED CREATED OBJECT WITH MODEL " + model.getId());
         // Select the renderer node
         transformableNode.select();
 
+
         transformableNode.setOnTapListener((hitTestResult, motionEvent) -> {
             Log.d(TAG, "CLICKED ON OBJECT " + model.getId());
-            currentSelectedAnchorNode = anchorNode;
             transformableNode.select();
+            if (checkForTutorial(selectedModel)) {
+                Log.d(TAG, String.format("%s HAS TUTORIAL", selectedModel));
+                tutorialButton.setVisibility(View.VISIBLE);
+            } else {
+                Log.d(TAG, String.format("%s DOESN'T TUTORIAL", selectedModel));
+                tutorialButton.setVisibility(View.GONE);
+            }
+            currentSelectedAnchorNode = anchorNode;
         });
     }
 
@@ -192,5 +219,17 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(MainActivity.this, "Delete - no node selected! Touch a node to select it.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean checkForTutorial(String selectedModel) {
+        String[] parts = selectedModel.split("/");
+        if (parts.length > 0) {
+            String modelName = parts[parts.length - 1] + "_Tutorial";
+            Log.d(TAG, String.format("%s", modelName));
+            File tutorialDir = new File(getFilesDir(), modelName);
+            Log.d(TAG, String.format("%s", tutorialDir.getAbsolutePath()));
+            return tutorialDir.exists() && tutorialDir.isDirectory();
+        }
+        return false;
     }
 }

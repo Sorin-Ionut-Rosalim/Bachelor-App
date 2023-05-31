@@ -23,7 +23,7 @@ import java.util.Objects;
 public class LibraryActivity extends AppCompatActivity {
     private File modelsDir;
     private File modelsImgDir;
-    private File modelsTutorialDir;
+    private File LegoManTutorialDir;
 
     @Override
     protected void onResume() {
@@ -49,7 +49,8 @@ public class LibraryActivity extends AppCompatActivity {
         backButton.setOnClickListener(view -> finish());
         this.modelsDir = new File(getFilesDir(), "models");
         this.modelsImgDir = new File(getFilesDir(), "models_img");
-        this.modelsTutorialDir = new File(getFilesDir(), "models_tutorial");
+        this.LegoManTutorialDir = new File(getFilesDir(), "LegoMan_Tutorial");
+
         loadModels();
 
     }
@@ -61,11 +62,8 @@ public class LibraryActivity extends AppCompatActivity {
             Log.d("Tutorial", f.getAbsolutePath());
         }
 
-        File[] tutorialFiles = modelsTutorialDir.listFiles();
-        if (tutorialFiles != null) {
-            for (File f : tutorialFiles) {
-                Log.d("Tutorial", f.getAbsolutePath());
-            }
+        for (File f : Objects.requireNonNull(LegoManTutorialDir.listFiles())) {
+            Log.d("Tutorial", f.getAbsolutePath());
         }
 
         File[] fileList = modelsDir.listFiles();
