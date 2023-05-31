@@ -216,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
             Objects.requireNonNull(nodeToRemove.getAnchor()).detach();
             nodeToRemove.setParent(null);
             Toast.makeText(MainActivity.this, "Test Delete - markAnchorNode removed", Toast.LENGTH_SHORT).show();
+            tutorialButton.setVisibility(View.GONE);
         } else {
             Toast.makeText(MainActivity.this, "Delete - no node selected! Touch a node to select it.", Toast.LENGTH_SHORT).show();
         }
