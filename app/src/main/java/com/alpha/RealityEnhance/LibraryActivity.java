@@ -50,12 +50,12 @@ public class LibraryActivity extends AppCompatActivity {
         this.modelsImgDir = new File(getFilesDir(), "models_img");
 
         loadModels();
-
     }
 
     private void loadModels() {
         GridLayout gridLayout = findViewById(R.id.gridLayout);
         gridLayout.setColumnCount(2);
+
         for (File f : Objects.requireNonNull(modelsImgDir.listFiles())) {
             Log.d("Tutorial", f.getAbsolutePath());
         }
@@ -64,16 +64,14 @@ public class LibraryActivity extends AppCompatActivity {
         int numRows = (int) Math.ceil((double) Objects.requireNonNull(fileList).length / 2);
         gridLayout.setRowCount(numRows);
 
-        // Loop through each file in the "models" folder
         int i = 0;
         for (File file : fileList) {
-
             Button button = new Button(this);
             button.setOnClickListener(view -> {
                 MainActivity.setSelectedModel(file.getAbsolutePath());
                 Toast.makeText(this, "Selected model: " + file.getName(), Toast.LENGTH_SHORT).show();
-
             });
+
             File imgFile = new File(modelsImgDir, file.getName());
             try {
                 FileInputStream stream = new FileInputStream(imgFile);
@@ -97,5 +95,4 @@ public class LibraryActivity extends AppCompatActivity {
             i++;
         }
     }
-
 }
