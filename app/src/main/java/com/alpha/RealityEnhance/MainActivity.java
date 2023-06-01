@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ArFragment arFragment;
     private AnchorNode currentSelectedAnchorNode = null;
     private FloatingActionButton tutorialButton;
+    private int tutorialStep = 0;
 
     public static void setSelectedModel(String modelPath) {
         selectedModel = modelPath;
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Delete - no node selected! Touch a node to select it.", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         assert arFragment != null;
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             // Get the list of files in the asset directory
             String[] fileList = getAssets().list(assetDirectoryName);
 
-            // Create a directory in the internal storage
+            // Create a directory in the internal storaage
             File internalDirectory = new File(getFilesDir(), assetDirectoryName);
             if (!internalDirectory.exists()) {
                 if (!internalDirectory.mkdirs()) {
@@ -185,31 +185,71 @@ public class MainActivity extends AppCompatActivity {
         transformableNode.setParent(anchorNode);
 
         currentSelectedAnchorNode = anchorNode;
-        if (checkForTutorial(selectedModel)) {
-            Log.d(TAG, String.format("%s HAS TUTORIAL", selectedModel));
-            tutorialButton.setVisibility(View.VISIBLE);
-        } else {
-            Log.d(TAG, String.format("%s DOESN'T TUTORIAL", selectedModel));
-            tutorialButton.setVisibility(View.GONE);
-        }
 
-        Log.d(TAG, "CLICKED CREATED OBJECT WITH MODEL " + model.getId());
+        CheckTutorialButton();
+
         // Select the renderer node
         transformableNode.select();
 
+        transformableNode.setOnTapListener((hitTestResult, motionEvent) -> currentSelectedAnchorNode = anchorNode);
 
-        transformableNode.setOnTapListener((hitTestResult, motionEvent) -> {
-            Log.d(TAG, "CLICKED ON OBJECT " + model.getId());
-            transformableNode.select();
-            if (checkForTutorial(selectedModel)) {
-                Log.d(TAG, String.format("%s HAS TUTORIAL", selectedModel));
-                tutorialButton.setVisibility(View.VISIBLE);
-            } else {
-                Log.d(TAG, String.format("%s DOESN'T TUTORIAL", selectedModel));
-                tutorialButton.setVisibility(View.GONE);
+        tutorialButton.setOnClickListener(view -> {
+            tutorialStep += 1;
+
+            Log.d(TAG, String.valueOf(tutorialStep));
+            String modelTutorialStep;
+            String[] parts = selectedModel.split("/");
+            Log.d(TAG, String.format("%s", selectedModel));
+            if (parts.length > 0) {
+                String tutorialDir = parts[parts.length - 1] + "_Tutorial";
+                if (TutorialComplete(model, transformableNode, tutorialDir)) return;
+
+                StringBuilder modelTutorialDirBuilder = new StringBuilder();
+
+                for (int i = 0; i < parts.length - 2; i++) {
+                    modelTutorialDirBuilder.append(parts[i]).append("/");
+                }
+                modelTutorialDirBuilder.append(tutorialDir).append("/").append(tutorialStep);
+                modelTutorialStep = modelTutorialDirBuilder.toString();
+                Log.d(TAG, String.format("modelTutorialStep = %s", modelTutorialStep));
+
+                Toast.makeText(this, "STEP" + tutorialStep, Toast.LENGTH_SHORT).show();
+                // Load the model renderable from the path and set it to the transformable node
+                ModelRenderable.builder()
+                        .setSource(this, Uri.parse(modelTutorialStep))
+                        .build()
+                        .thenAccept(transformableNode::setRenderable)
+                        .exceptionally(
+                                throwable -> {
+                                    Log.e(TAG, "Unable to load Renderable.", throwable);
+                                    return null;
+                                });
             }
-            currentSelectedAnchorNode = anchorNode;
+            transformableNode.select();
         });
+    }
+
+    private boolean TutorialComplete(ModelRenderable model, TransformableNode transformableNode, String tutorialDir) {
+        try {
+            String[] fileList = getAssets().list(tutorialDir);
+            if (tutorialStep > fileList.length) {
+                tutorialStep = 0;
+                Toast.makeText(this, "Tutorial Complete!", Toast.LENGTH_SHORT).show();
+                transformableNode.setRenderable(model);
+                return true;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    private void CheckTutorialButton() {
+        if (checkForTutorial(selectedModel)) {
+            tutorialButton.setVisibility(View.VISIBLE);
+        } else {
+            tutorialButton.setVisibility(View.GONE);
+        }
     }
 
     private void removeAnchorNode(AnchorNode nodeToRemove) {
@@ -219,7 +259,9 @@ public class MainActivity extends AppCompatActivity {
             Objects.requireNonNull(nodeToRemove.getAnchor()).detach();
             nodeToRemove.setParent(null);
             Toast.makeText(MainActivity.this, "Test Delete - markAnchorNode removed", Toast.LENGTH_SHORT).show();
+            tutorialStep = 0;
             tutorialButton.setVisibility(View.GONE);
+            Log.d(TAG, String.format("removeAnchorNode: %d", tutorialStep));
         } else {
             Toast.makeText(MainActivity.this, "Delete - no node selected! Touch a node to select it.", Toast.LENGTH_SHORT).show();
         }

@@ -45,7 +45,17 @@ dependencies {
 }
 
 // Generate .sfb file objects
-//sceneform.asset('sampledata/Sofa.obj',
-//                'default',
-//                'sample/Sofa.sfa',
-//                'src/main/assets/models/Sofa')
+//sceneform.asset('sampledata/Legs-LegoMan.obj',
+//        'default',
+//        'sample/Legs-LegoMan.sfa',
+//        'src/main/assets/LegoMan_Tutorial/1')
+//
+//sceneform.asset('sampledata/Torso-LegoMan.obj',
+//        'default',
+//        'sample/Torso-LegoMan.sfa',
+//        'src/main/assets/LegoMan_Tutorial/2')
+//
+//sceneform.asset('sampledata/Head-LegoMan.obj',
+//        'default',
+//        'sample/Head-LegoMan.sfa',
+//        'src/main/assets/LegoMan_Tutorial/3')
