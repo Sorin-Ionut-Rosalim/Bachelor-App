@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         assert arFragment != null;
 
-
         arFragment.setOnTapArPlaneListener(((hitResult, plane, motionEvent) -> {
             Anchor anchor = hitResult.createAnchor();
             Log.d(TAG, "CLICKED ON AN EMPTY SPACE " + hitResult);
@@ -88,9 +87,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "NO MODEL SELECTED", Toast.LENGTH_SHORT).show();
             }
-
         }));
-
     }
 
     private void tryToMoveAssets() {
@@ -124,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             // Get the list of files in the asset directory
             String[] fileList = getAssets().list(assetDirectoryName);
 
-            // Create a directory in the internal storaage
+            // Create a directory in the internal storage
             File internalDirectory = new File(getFilesDir(), assetDirectoryName);
             if (!internalDirectory.exists()) {
                 if (!internalDirectory.mkdirs()) {
