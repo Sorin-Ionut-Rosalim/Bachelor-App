@@ -38,24 +38,19 @@ dependencies {
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.fragment:fragment:1.5.7'
+    implementation 'androidx.fragment:fragment:1.6.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     androidTestImplementation 'org.testng:testng:6.9.6'
     testImplementation 'junit:junit:4.13.2'
 }
 
 // Generate .sfb file objects
-//sceneform.asset('sampledata/Legs-LegoMan.obj',
+//sceneform.asset('sampledata/eb_house_plant_01.obj',
 //        'default',
-//        'sample/Legs-LegoMan.sfa',
-//        'src/main/assets/LegoMan_Tutorial/1')
+//        'sample/eb_house_plant_01.sfa',
+//        'src/main/assets/models/eb_house_plant_01')
 //
-//sceneform.asset('sampledata/Torso-LegoMan.obj',
+//sceneform.asset('sampledata/indoor plant_02.obj',
 //        'default',
-//        'sample/Torso-LegoMan.sfa',
-//        'src/main/assets/LegoMan_Tutorial/2')
-//
-//sceneform.asset('sampledata/Head-LegoMan.obj',
-//        'default',
-//        'sample/Head-LegoMan.sfa',
-//        'src/main/assets/LegoMan_Tutorial/3')
+//        'sample/indoor plant_02.sfa',
+//        'src/main/assets/models/indoor plant_02')
