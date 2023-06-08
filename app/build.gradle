@@ -45,12 +45,12 @@ dependencies {
 }
 
 // Generate .sfb file objects
-//sceneform.asset('sampledata/eb_house_plant_01.obj',
+//sceneform.asset('sampledata/Painting.obj',
 //        'default',
-//        'sample/eb_house_plant_01.sfa',
-//        'src/main/assets/models/eb_house_plant_01')
+//        'sample/Painting.sfa',
+//        'src/main/assets/models/Painting')
 //
-//sceneform.asset('sampledata/indoor plant_02.obj',
+//sceneform.asset('sampledata/Geometry-Cube-Edge.obj',
 //        'default',
-//        'sample/indoor plant_02.sfa',
-//        'src/main/assets/models/indoor plant_02')
+//        'sample/Geometry-Cube-Edge.sfa',
+//        'src/main/assets/Geometry-Cube_Tutorial/1')

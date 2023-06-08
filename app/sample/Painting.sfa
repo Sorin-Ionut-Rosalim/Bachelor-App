@@ -1,0 +1,50 @@
+{
+  materials: [
+    {
+      name: 'Manhattan_0fd899c6-9ce6-42aa-b391-f054cfdc9f90',
+      parameters: [
+        {
+          baseColor: '0001_Y9A7399_1',
+        },
+        {
+          baseColorTint: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          metallic: 0,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/obj_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+    ],
+    collision: {},
+    file: 'sampledata/Painting.obj',
+    name: 'Painting',
+    recenter: 'root',
+    scale: 0.05,
+  },
+  samplers: [
+    {
+      file: 'sampledata\\0001_Y9A7399_1.jpg',
+      name: '0001_Y9A7399_1',
+      pipeline_name: '0001_Y9A7399_1.jpg',
+    },
+  ],
+  version: '0.54:2',
+}
