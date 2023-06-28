@@ -1,7 +1,6 @@
 package com.alpha.RealityEnhance;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +26,7 @@ public class QRActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private File modelsDir;
     private File modelsImgDir;
+    private File modelsTutorialDir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,28 +34,26 @@ public class QRActivity extends AppCompatActivity {
         setContentView(R.layout.qr_activity);
         this.modelsDir = new File(getFilesDir(), "models");
         this.modelsImgDir = new File(getFilesDir(), "models_img");
+        this.modelsTutorialDir = new File(getFilesDir(), "models_tutorial");
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
         mCodeScanner.setDecodeCallback(result -> runOnUiThread(() -> {
             String modelId = result.getText();
-            Log.d("MODELS", "scanned: " + modelId);
             for (File f : Objects.requireNonNull(modelsDir.listFiles())) {
+                // IF the model is available, load it
                 if (f.getName().equals(modelId)) {
-                    Log.d("MODELS", "Found " + modelId + " locally. Selecting it.");
                     MainActivity.setSelectedModel(f.getAbsolutePath());
                     finish();
                     return;
                 }
             }
-            Log.d("MODELS", "Not found " + modelId + " locally. Downloading it.");
-
             downloadModel(modelId);
         }));
         scannerView.setOnClickListener(view -> mCodeScanner.startPreview());
     }
 
     private void downloadModel(String modelId) {
-        // Download the file from the website using OkHttp
+        // Download a model using OkHttp
         OkHttpClient client = new OkHttpClient();
         Request modelRequest = new Request.Builder()
                 .url("https://storage.googleapis.com/reality-enhance-bucket/models/" + modelId)
@@ -63,9 +61,13 @@ public class QRActivity extends AppCompatActivity {
         Request modelImgRequest = new Request.Builder()
                 .url("https://storage.googleapis.com/reality-enhance-bucket/models_img/" + modelId)
                 .build();
+        Request modelTutorialRequest = new Request.Builder()
+                .url("https://storage.googleapis.com/reality-enhance-bucket/models_tutorial/" + modelId)
+                .build();
 
         client.newCall(modelRequest).enqueue(new RequestCallback(modelId, modelsDir));
         client.newCall(modelImgRequest).enqueue(new RequestCallback(modelId, modelsImgDir));
+        client.newCall(modelTutorialRequest).enqueue(new RequestCallback(modelId, modelsTutorialDir));
     }
 
     @Override
@@ -96,46 +98,27 @@ public class QRActivity extends AppCompatActivity {
 
         @Override
         public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-            if (!response.isSuccessful()) {
-                Log.d("MODELS", "Request for " + modelId + " in " + parentDir.getAbsolutePath() + " FAIL: " + response.code());
-                String error = String.format("No model with ID: %s", modelId);
+            if (!response.isSuccessful()) { //Handle fail response
+                String error = String.format("Model with ID had a problem: %s", modelId);
                 runOnUiThread(() -> {
                     Toast.makeText(QRActivity.this, error, Toast.LENGTH_SHORT).show();
                     mCodeScanner.startPreview();
                 });
             }
-            if (response.isSuccessful()) {
-                Log.d("MODELS", "Request for " + modelId + " in " + parentDir.getAbsolutePath() + " SUCCESS: " + response.code());
-
+            if (response.isSuccessful()) { //Handle success response
                 // Save the downloaded file to the assets directory
-                File internalStorageDir = getFilesDir();
-                for (File f : Objects.requireNonNull(internalStorageDir.listFiles())) {
-                    Log.d("MODELS", f.getAbsolutePath());
-                }
                 ResponseBody responseBody = response.body();
                 if (responseBody != null) {
                     File file = new File(parentDir, modelId);
                     InputStream inputStream = responseBody.byteStream();
                     FileOutputStream fileOutputStream = new FileOutputStream(file);
-                    byte[] buffer = new byte[8192]; // Choose an appropriate buffer size
+                    byte[] buffer = new byte[8192]; // Buffer size
                     int bytesRead;
-                    float contentSize = Float.parseFloat(Objects.requireNonNull(response.header("Content-Length")));
-                    int total = 0;
                     while ((bytesRead = inputStream.read(buffer)) != -1) {
                         fileOutputStream.write(buffer, 0, bytesRead);
-                        total += bytesRead;
-                        Log.d("MODELS", "WROTE to " + file.getAbsolutePath() + " " + ((total * 100.0f) / contentSize + "%"));
-
                     }
-
                     fileOutputStream.close();
                     inputStream.close();
-                    Log.d("MODELS", "Done writing to file");
-
-
-                    for (File f : Objects.requireNonNull(internalStorageDir.listFiles())) {
-                        Log.d("MODELS", f.getName());
-                    }
                     if (parentDir.equals(modelsDir)) {
                         MainActivity.setSelectedModel(file.getAbsolutePath());
                     }

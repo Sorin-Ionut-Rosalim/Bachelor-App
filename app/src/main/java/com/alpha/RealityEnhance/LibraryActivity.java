@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -23,11 +22,11 @@ import java.util.Objects;
 public class LibraryActivity extends AppCompatActivity {
     private File modelsDir;
     private File modelsImgDir;
+    private File modelsTutorialDir;
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("Tutorial", "onResume: ");
         loadModels();
     }
 
@@ -48,6 +47,7 @@ public class LibraryActivity extends AppCompatActivity {
         backButton.setOnClickListener(view -> finish());
         this.modelsDir = new File(getFilesDir(), "models");
         this.modelsImgDir = new File(getFilesDir(), "models_img");
+        this.modelsTutorialDir = new File(getFilesDir(), "models_tutorial");
 
         loadModels();
     }
@@ -55,11 +55,6 @@ public class LibraryActivity extends AppCompatActivity {
     private void loadModels() {
         GridLayout gridLayout = findViewById(R.id.gridLayout);
         gridLayout.setColumnCount(2);
-
-        for (File f : Objects.requireNonNull(modelsImgDir.listFiles())) {
-            Log.d("Tutorial", f.getAbsolutePath());
-        }
-
         File[] fileList = modelsDir.listFiles();
         int numRows = (int) Math.ceil((double) Objects.requireNonNull(fileList).length / 2);
         gridLayout.setRowCount(numRows);

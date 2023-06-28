@@ -94,14 +94,11 @@ public class MainActivity extends AppCompatActivity {
         File internalStorageDir = getFilesDir();
         File modelsDir = new File(internalStorageDir, "models");
         File modelImgsDir = new File(internalStorageDir, "models_img");
-
         if (modelsDir.exists() && modelsDir.isDirectory() && modelImgsDir.exists() && modelImgsDir.isDirectory()) {
             return;
         }
-
         moveAssetDirectoryToInternalStorage("models");
         moveAssetDirectoryToInternalStorage("models_img");
-
         try {
             String[] assetDirectories = getAssets().list("");
             if (assetDirectories != null) {
@@ -120,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
         try {
             // Get the list of files in the asset directory
             String[] fileList = getAssets().list(assetDirectoryName);
-
             // Create a directory in the internal storage
             File internalDirectory = new File(getFilesDir(), assetDirectoryName);
             if (!internalDirectory.exists()) {
@@ -130,8 +126,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
             }
-            Log.d(TAG, "moveAssetDirectoryToInternalStorage: " + fileList.length);
-
             // Iterate through the files in the asset directory
             for (String fileName : fileList) {
                 // Open the asset file for reading
@@ -154,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 outputStream.close();
                 inputStream.close();
             }
-
             // The directory and its contents have been moved to the internal storage
         } catch (IOException e) {
             e.printStackTrace();
@@ -164,30 +157,21 @@ public class MainActivity extends AppCompatActivity {
     private void addModelToScene(Anchor anchor, ModelRenderable model) {
         // Create the anchor node
         AnchorNode anchorNode = new AnchorNode(anchor);
-
         // Create the transformable node
         TransformableNode transformableNode = new TransformableNode(arFragment.getTransformationSystem());
         transformableNode.setRenderable(model);
-
         // Add the node to the scene
         arFragment.getArSceneView().getScene().addChild(anchorNode);
-
         // Set the min and max scales of the ScaleController.
         transformableNode.getScaleController().setMinScale(0.4f);
         transformableNode.getScaleController().setMaxScale(1.2f);
-
         // Set the local scale of the node BEFORE setting its parent
         transformableNode.setLocalScale(new Vector3(0.55f, 0.55f, 0.55f));
-
         transformableNode.setParent(anchorNode);
-
         currentSelectedAnchorNode = anchorNode;
-
         CheckTutorialButton();
-
         // Select the renderer node
         transformableNode.select();
-
         transformableNode.setOnTapListener((hitTestResult, motionEvent) -> currentSelectedAnchorNode = anchorNode);
 
         tutorialButton.setOnClickListener(view -> {
