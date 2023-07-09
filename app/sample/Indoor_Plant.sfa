@@ -1,0 +1,76 @@
+{
+  materials: [
+    {
+      name: 'IDP_root_259cedbc-046d-4e30-beb3-17ee017177db',
+      parameters: [
+        {
+          baseColor: 'indoor_plant_2_COL',
+        },
+        {
+          baseColorTint: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          metallic: 0,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/obj_material.sfm',
+    },
+    {
+      name: 'Cupcake_32909370-1125-458d-8cfe-d4c907564131',
+      parameters: [
+        {
+          baseColor: null,
+        },
+        {
+          baseColorTint: [
+            0.93700000000000006,
+            0.93700000000000006,
+            0.93700000000000006,
+            1,
+          ],
+        },
+        {
+          metallic: 0,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/obj_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+    ],
+    collision: {},
+    file: 'sampledata/Indoor_Plant.obj',
+    name: 'Indoor_Plant',
+    recenter: 'root',
+    scale: 0.20597299999999999,
+  },
+  samplers: [
+    {
+      file: 'sampledata\\indoor_plant_2_COL.jpg',
+      name: 'indoor_plant_2_COL',
+      pipeline_name: 'indoor_plant_2_COL.jpg',
+    },
+  ],
+  version: '0.54:2',
+}

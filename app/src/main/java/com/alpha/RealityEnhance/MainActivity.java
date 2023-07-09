@@ -6,7 +6,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,12 +38,16 @@ public class MainActivity extends AppCompatActivity {
     private AnchorNode currentSelectedAnchorNode = null;
     private FloatingActionButton tutorialButton;
     private int tutorialStep = 0;
+    private boolean deleteButtonLongPressed = false;
+    private Handler deleteButtonHandler;
+    private final int LONG_PRESS_DELAY = 3000;
+    private ArrayList<AnchorNode> anchorNodeList = new ArrayList<>();
 
     public static void setSelectedModel(String modelPath) {
         selectedModel = modelPath;
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,13 +74,25 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        deleteButton.setOnClickListener(view -> {
-            if (currentSelectedAnchorNode != null) {
-                removeAnchorNode(currentSelectedAnchorNode);
-                currentSelectedAnchorNode = null;
-            } else {
-                Toast.makeText(MainActivity.this, "Delete - no node selected! Touch a node to select it.", Toast.LENGTH_SHORT).show();
+        deleteButton.setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    deleteButtonHandler = new Handler();
+                    deleteButtonHandler.postDelayed(deleteButtonRunnable, LONG_PRESS_DELAY);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if (deleteButtonLongPressed) {
+                        deleteAllAnchorNodes();
+                    } else {
+                        deleteSelectedAnchorNode();
+                    }
+                    deleteButtonLongPressed = false;
+                    if (deleteButtonHandler != null) {
+                        deleteButtonHandler.removeCallbacks(deleteButtonRunnable);
+                    }
+                    break;
             }
+            return true;
         });
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
@@ -157,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
     private void addModelToScene(Anchor anchor, ModelRenderable model) {
         // Create the anchor node
         AnchorNode anchorNode = new AnchorNode(anchor);
+        anchorNodeList.add(anchorNode);
         // Create the transformable node
         TransformableNode transformableNode = new TransformableNode(arFragment.getTransformationSystem());
         transformableNode.setRenderable(model);
@@ -233,6 +253,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void deleteSelectedAnchorNode() {
+        if (currentSelectedAnchorNode != null) {
+            removeAnchorNode(currentSelectedAnchorNode);
+            currentSelectedAnchorNode = null;
+        } else {
+            Toast.makeText(MainActivity.this, "Delete - no node selected! Touch a node to select it.", Toast.LENGTH_SHORT).show();
+        }
+    }
     private void removeAnchorNode(AnchorNode nodeToRemove) {
         //Remove an anchor node
         if (nodeToRemove != null) {
@@ -257,5 +285,21 @@ public class MainActivity extends AppCompatActivity {
             return tutorialDir.exists() && tutorialDir.isDirectory();
         }
         return false;
+    }
+
+    private Runnable deleteButtonRunnable = () -> {
+        deleteButtonLongPressed = true;
+        Toast.makeText(MainActivity.this, "Long press detected. Deleting all anchor nodes.", Toast.LENGTH_SHORT).show();
+    };
+
+    private void deleteAllAnchorNodes() {
+        // Delete all anchor nodes
+        for (AnchorNode anchorNode : anchorNodeList) {
+            arFragment.getArSceneView().getScene().removeChild(anchorNode);
+            Objects.requireNonNull(anchorNode.getAnchor()).detach();
+            anchorNode.setParent(null);
+        }
+        anchorNodeList.clear();
+        Toast.makeText(MainActivity.this, "All anchor nodes deleted.", Toast.LENGTH_SHORT).show();
     }
 }
