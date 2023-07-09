@@ -37,7 +37,7 @@
     file: 'sampledata/Painting.obj',
     name: 'Painting',
     recenter: 'root',
-    scale: 0.05,
+    scale: 0.01,
   },
   samplers: [
     {

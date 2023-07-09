@@ -26,7 +26,7 @@ public class QRActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private File modelsDir;
     private File modelsImgDir;
-    private File modelsTutorialDir;
+//    private File modelsTutorialDir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class QRActivity extends AppCompatActivity {
         setContentView(R.layout.qr_activity);
         this.modelsDir = new File(getFilesDir(), "models");
         this.modelsImgDir = new File(getFilesDir(), "models_img");
-        this.modelsTutorialDir = new File(getFilesDir(), "models_tutorial");
+//        this.modelsTutorialDir = new File(getFilesDir(), "models_tutorial");
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
         mCodeScanner.setDecodeCallback(result -> runOnUiThread(() -> {
@@ -61,13 +61,13 @@ public class QRActivity extends AppCompatActivity {
         Request modelImgRequest = new Request.Builder()
                 .url("https://storage.googleapis.com/reality-enhance-bucket/models_img/" + modelId)
                 .build();
-        Request modelTutorialRequest = new Request.Builder()
-                .url("https://storage.googleapis.com/reality-enhance-bucket/models_tutorial/" + modelId)
-                .build();
+//        Request modelTutorialRequest = new Request.Builder()
+//                .url("https://storage.googleapis.com/reality-enhance-bucket/models_tutorial/" + modelId)
+//                .build();
 
         client.newCall(modelRequest).enqueue(new RequestCallback(modelId, modelsDir));
         client.newCall(modelImgRequest).enqueue(new RequestCallback(modelId, modelsImgDir));
-        client.newCall(modelTutorialRequest).enqueue(new RequestCallback(modelId, modelsTutorialDir));
+//        client.newCall(modelTutorialRequest).enqueue(new RequestCallback(modelId, modelsTutorialDir));
     }
 
     @Override

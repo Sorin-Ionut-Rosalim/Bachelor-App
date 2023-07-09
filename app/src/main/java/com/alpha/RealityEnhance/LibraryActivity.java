@@ -78,6 +78,12 @@ public class LibraryActivity extends AppCompatActivity {
                 button.setText(file.getName());
             }
 
+            // Set fixed size for the button
+            int buttonSizeInPixels = (int) getResources().getDimension(R.dimen.button_size);
+            button.setMinimumWidth(buttonSizeInPixels);
+            button.setMinimumHeight(buttonSizeInPixels);
+            button.setPadding(0, 0, 0, 0);
+
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.width = 0;
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -90,4 +96,5 @@ public class LibraryActivity extends AppCompatActivity {
             i++;
         }
     }
+
 }

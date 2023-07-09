@@ -239,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
             arFragment.getArSceneView().getScene().removeChild(nodeToRemove);
             Objects.requireNonNull(nodeToRemove.getAnchor()).detach();
             nodeToRemove.setParent(null);
-            Toast.makeText(MainActivity.this, "Test Delete - markAnchorNode removed", Toast.LENGTH_SHORT).show();
             tutorialStep = 0;
             tutorialButton.setVisibility(View.GONE);
             Log.d(TAG, String.format("removeAnchorNode: %d", tutorialStep));

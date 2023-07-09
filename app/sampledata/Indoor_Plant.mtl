@@ -1,0 +1,23 @@
+newmtl IDP_root_259cedbc-046d-4e30-beb3-17ee017177db
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd indoor_plant_2_COL.jpg
+newmtl Cupcake_32909370-1125-458d-8cfe-d4c907564131
+Kd 0.937 0.937 0.937
+d 1.000
+newmtl IDP_ground_b932241c-e9ec-469b-a6f3-d5d31e198387
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd indoor_plant_2_COL.jpg
+newmtl IDP_leaves_6f729bc5-978d-4b56-9def-b5bae9ffa84c
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd indoor_plant_2_COL.jpg
+newmtl IDP_leaves_indoor_plant_2_NOR.jpg_10d65a30-142c-432c-b9e9-ca71f93fd5b3
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd indoor_plant_2_COL.jpg
+newmtl IDP_Pot_ca755b68-a741-4e83-bd32-f58655fdf1d1
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd indoor_plant_2_COL.jpg
